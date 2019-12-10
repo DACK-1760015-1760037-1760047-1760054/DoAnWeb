@@ -13,22 +13,18 @@
       .box1{
         font-size: 20px;
         width:600px;
-        height:300px;
+        height:200px;
         padding: 10px;
         border:1px solid black;}
         .textarea {
-      width: 102%;
-      height: 2500px;
+      width: 100%;
+      height: 3000px;
       padding: 12px 20px;
       box-sizing: border-box;
       border: 2px solid #ccc;
       border-radius: 4px;
       background-color: #f8f8f8;
       resize: none;}
-        .color{
-            background-color: RoyalBlue;
-            width: 100%;
-            height:48px;}
         .left {
            text-align: justify;
         }
@@ -36,33 +32,34 @@
   </head>
   <body>    
     <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="color" class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">            
-            <?php if(!$currentUser): ?>
+      <nav class="navbar navbar-expand-lg navbar-light bg-primary sticky-top"style = "padding: 0px">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div  class="collapse navbar-collapse"  id="navbarSupportedContent">
+          <ul class="nav nav-tabs">            
+          <?php if(!$currentUser): ?>
             <!-- Trang giới thiệu -->
-            <h2><a class="nav-link" href="index.php" style="font-family:Georgia"><strong>LẬP TRÌNH WEB 1 _ MẠNG XÃ HỘI</strong></a></h2>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>            
+            <center><h2><a class="nav-link-active"style="font-family:Georgia"><strong>LẬP TRÌNH WEB 1 _ MẠNG XÃ HỘI</strong></a></h2></center>          
             <?php else: ?>
             <!-- biểu tượng của mạng xã hội -->
-            <li class="nav-item <?php echo $page == 'index1' ? 'active' : ' ' ?>">
-              <a class="nav-link" href="index1.php" style="font-family:Georgia"><strong ><i class='fab fa-wikipedia-w' style='font-size:30px;color:white'></i></strong></a>
+            <li class="nav-item <?php echo $page == 'home' ? 'active' : ' ' ?>">
+              <a class="nav-link" href="home.php" style="font-family:Georgia"><strong ><span style='font-size:25px;color:white'>&#120142;</span></strong></a>
             </li>&emsp;
             <!-- Khung tìm kiếm -->
-            <div class="box">
-              <div class="container-1">
-                  <span class="icon"><i class="fa fa-search"></i></span>
-                  <input type="search" id="search" placeholder="Search..." />
-              </div>
-            </div>&emsp;&emsp;&emsp;&nbsp;           
+             <nav class="navbar navbar-expand-md bg-primary navbar-primary">
+            	<form action = "search.php" class="form-inline" method="POST">
+	              <input class="form-control mr-sm-2" type="search" name="search-friend-box" placeholder="Tìm kiếm bạn bè..." aria-label="Search" Required>
+	              <button class="btn btn-outline-success my-2 my-sm-0" name="search-btn"  type="submit">Tìm kiếm</button>
+	            </form>
+            </nav>&emsp;&emsp;&emsp;&nbsp;           
             <!-- Trang cá nhân -->
-            <li class="nav-item <?php echo $page == 'pagePersonal' ? 'active' : ' ' ?>">            
-              <a class="nav-link" href="pagePersonal.php" style="font-size:95%;font-family:Georgia"><strong style="color:white"><img style="width:28px" class="rounded-circle" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($currentUser[0]['avatar']);?>"><?php echo $currentUser ? ' ' . $currentUser[0]['fullname'] . ' ' : ' ' ?></strong></a>
-            </li><!-- Trang chủ-->
-            <li class="nav-item <?php echo $page == 'index1' ? 'active' : ' ' ?>">
-              <a class="nav-link" href="index1.php" style="font-family:Georgia"><strong style="color: white"><i class='fas fa-home' style='font-size:25px;color:black'></i>Trang chủ</strong></a>
+            <li class="nav-item <?php echo $page == 'pagePersonal' ? 'active' : ' ' ?>">
+              <a class="nav-link" href="pagePersonal.php" style="font-size:95%;font-family:Georgia"><strong style="color:white"><img style="width:30px" class="rounded-circle" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($currentUser[0]['avatar']);?>"><?php echo $currentUser ? ' ' . $currentUser[0]['fullname'] . ' ' : ' ' ?></strong></a>
+            <!-- Trang chủ-->
+            <li class="nav-item <?php echo $page == 'home' ? 'active' : ' ' ?>">
+              <a class="nav-link" href="home.php" style="font-family:Georgia"><strong style="color: white"><i class='fas fa-home' style='font-size:25px;color:black'></i>Trang chủ</strong></a>
             </li>&emsp;
             <!-- Danh sách bạn bè -->
             <li class="nav-item <?php echo $page == 'friends' ? 'active' : ' ' ?>">            
@@ -78,9 +75,17 @@
             </li>
             <!-- Đăng xuất -->
             <li class="nav-item <?php echo $page == 'logout' ? 'active' : ' ' ?>">
-              <a class="nav-link" href="logout.php" style="font-size:95%;font-family:Georgia"><strong style="color:white"><i class='fas fa-arrow-alt-circle-right' style='font-size:30px;color:black'></i><?php echo $currentUser ? '(' . $currentUser[0]['fullname'] . ')' : ' ' ?></strong></a>
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                </button>
+                <div class="dropdown-menu"style = "font-family:Georgia">
+                  <a class="dropdown-item" href="logout.php" ><strong>Đăng xuất <?php echo $currentUser ? '(' . $currentUser[0]['fullname'] . ')' : ' ' ?></strong></a>
+                  <a class="dropdown-item" href="home.php" ><strong>Trang chủ</strong></a>
+                  <a class="dropdown-item" href="updateProfile.php" ><strong>Cập nhật trang cá nhân</strong></a>
+                  <a class="dropdown-item" href="changePassword.php" ><strong>Đổi mật Khẩu</strong></a>                
+                </div>
+              </div>
             </li>
-
-            <?php endif; ?>       
+          <?php endif; ?>       
         </div>
       </nav>

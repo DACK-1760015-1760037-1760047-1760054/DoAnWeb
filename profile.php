@@ -4,8 +4,13 @@
   {
   	header('location: home.php');
   	exit();
-  }
-	$posts = findAllPostOfUser($currentUser[0]['id']);
+  }  	
+	$userId = $_GET['id'];
+	$profile = findUserById($userId);
+	$posts = findAllPostOfUser($userId);
+
+	$isFollowing = getFriendship($currentUser[0]['id'], $userId);
+	$isFollower = getFriendship($userId, $currentUser[0]['id']);
 ?>
 <?php include 'header.php'; ?>
 <!DOCTYPE html>
@@ -16,34 +21,68 @@
 	<style>
 		input[type=text] {width: 60%;}
 		label {font-size: "2"; font-family: Times New Roman;}
-		a { font-size:100%;font-weight:bold;font-family: Times New Roman;};
-		.box{
-        font-size: 10px;
-        width:100px;
-        height:100px;
-        padding: 50px;
-        border:10px solid black;}
-        
-		.textarea {
-		  width: 100%;
-		  height: 3000px;
-		  padding: 12px 20px;
-		  box-sizing: border-box;
-		  border: 2px solid #ccc;
-		  border-radius: 4px;
-		  background-color: #f8f8f8;
-		  resize: none;
-		}
-		.left {
-       text-align: right;
-    }
-	</style>
+		a { font-size:100%;font-weight:bold;font-family: Times New Roman;};	
+	</style>		
 </head>
 <body>
-	<div class="container">	
-		<center><img style="width:100%;height: 400px" class="rounded" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($currentUser[0]['anhbia']); ?>"></a></center>&emsp;&emsp;
-		<img style="width:120px" class="rounded-circle" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($currentUser[0]['avatar']); ?>"><strong style = "font-family:Georgia;font-size:3"><?php echo $currentUser ? ' ' . $currentUser[0]['fullname'] . ' ' : ' ' ?></strong><br>
-		<a href="updateProfile.php" data-toggle="tooltip" title="Chỉnh sửa thông tin của bạn"><span style='font-size:20px;'>&#9203;Cập Nhật Trang Cá Nhân</span></a>
+	<div class="container">		
+		<center><img style="width:1010px;height: 400px" class="rounded" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($profile[0]['anhbia']); ?>"></a></center>&emsp;
+		<img style="width:120px" class="rounded-circle" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($profile[0]['avatar']); ?>"><strong style = "font-family:Georgia;font-size:3"><?php echo $profile ? ' ' . $profile[0]['fullname'] . ' ' : ' ' ?></strong><br>
+		<?php if ($isFollowing && $isFollower): ?>
+			<form>
+				<div class="btn-group">
+					<form method="POST" action="add-friend.php">
+						<input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">&emsp;
+						<button type="Submit" class="btn btn-primary"><span>&#9989;Đang theo dõi</span></button>
+					</form>
+					<form method="POST" action="remove-friend.php">
+						<input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">&emsp;
+						<button type="Submit" class="btn btn-primary"><span>&#10060;Xóa bạn bè</span></button>					
+					</form>					
+				</div>
+			</form>
+		<?php else: ?>
+			<?php if($isFollowing && !$isFollower): ?>
+				<from>
+					<div class="btn-group">
+						<form method="POST" action="remove-friend.php">
+							<input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">
+							<button type="Submit" class="btn btn-primary"><span>&#10060;Xóa yêu cầu</span></button>
+						</form>
+						<form method="POST" action="add-friend.php">
+							<input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">&emsp;
+							<button type="Submit" class="btn btn-primary"><span>&#9989;Theo dõi</span></button>
+						</form>
+					</div>
+				</from>
+			<?php endif; ?>
+			<?php if(!$isFollowing && $isFollower): ?>
+				<div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Trả lời mời kết bạn
+                </button>
+                <div class="dropdown-menu"style = "font-family:Georgia">
+                  	<a class="dropdown-item" href="#" >
+	                  	<form method="POST" action="remove-friend.php">
+							<input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">
+							<button>Hủy yêu cầu</button>
+						</form>				
+                  	</a>
+                  	<a class="dropdown-item" href="#" >
+	                  	<form method="POST" action="add-friend.php">
+							<input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">
+							<button>Đồng ý</button>
+						</form>
+                  	</a>                 
+                </div>
+              </div>				
+			<?php endif; ?>
+			<?php if(!$isFollowing && !$isFollower) : ?>
+				<form method="POST" action="add-friend.php">
+					<input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">
+					<button type="Submit" class="btn btn-primary"><i class='fa fa-user-plus' style='font-size:15px;color:black'></i><b>Thêm Bạn Bè</b></button>
+				</form>
+			<?php endif; ?>			
+		<?php endif; ?>
 		<div class="card-columns">
 		    <div class="card bg-info"style="width:102%;height:325px;font-family:Times New Roman;color: white">
 		      <div class="card-body">
@@ -51,13 +90,13 @@
 		        	<legend><center><b>Giới Thiệu</b></center></legend>
 					<em><strong>
 						<?php
-							$result = LoadData($currentUser[0]['id']);
+							$result = LoadData($profile[0]['id']);
 						    echo "<span>&#128140;</span>".' '."Biệt danh: " .' '. $result[0]['bietdanh']."<br>";
 							echo "<span>&#128221;</span>".' '."Tiểu sử : " . '  ' . $result[0]['tieusu']."<br>";
 							echo "<span>&#127891;</span>".' '."Học tại :" . '  ' . $result[0]['workplace']."<br>";
 							echo "<span>&#128146;</span>".' '."Đến từ :" . '  ' . $result[0]['quequan']."<br>";
 							echo "<span>&#127847;</span>".' '."Sống tại :" . '  ' . $result[0]['address']."<br>";
-							echo "<span>&#128150;</span>".' '."Giới tính :" . '  ' . $result[0]['gioitinh']."<br>";
+							echo "<span>&#9825;</span>".' '."Giới tính :" . '  ' . $result[0]['gioitinh']."<br>";
 							echo "<span>&#127874;</span>".' '."Sinh nhật :" . '  ' . $result[0]['ngaysinh']."<br>";
 							echo "<span>&#128222;</span>".' '."Số điện thoại :" . '  ' . $result[0]['phonenumber']."<br>";
 						?>
@@ -71,7 +110,7 @@
 		        		<form action="status.php" method="POST">
 							<div class="form-group">
 								<label for="content"><strong>Thêm Trạng Thái</strong></label>
-								<textarea class="form-control" id="content" name="content" rows="3" placeholder="<?php echo $currentUser ? '' . $currentUser[0]['fullname'] . ' ơi !' : ' ' ?>, bạn đang nghĩ gì?"></textarea>
+								<textarea class="form-control" id="content" name="content" rows="3" placeholder="<?php echo $currentUser ? '' . $currentUser[0]['fullname'] . ' ơi !' : ' ' ?>, bạn muốn viết gì cho <?php echo $profile ? '' . $profile[0]['fullname'] . ' nhỉ!' : ' ' ?>"></textarea>
 								<hr>
 								<div class="btn-group">
 									<button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style='font-size:24px' class='fas'data-toggle="tooltip" title="Mọi người">&#xf57d;</i></button>
@@ -120,47 +159,38 @@
 		      	</div>
 		     </div>
 		</div>
-		<h4 style = "font-family:Georgia;color:blue"><strong><marquee direction="right">Không gian của <?php echo $currentUser ? ' ' . $currentUser[0]['fullname'] . ' ' : ' ' ?></marquee></strong></h4>
+		<h4 style = "font-family:Georgia;color:blue"><strong><marquee direction="right">Không gian của <?php echo $profile ? ' ' . $profile[0]['fullname'] . ' ' : ' ' ?></marquee></strong></h4>
 		<div class="card">				
 			<fieldset class="textarea"style = "font-family:Georgia;font-size:3">
 				<legend><center><strong>Dòng thời gian</strong></center></legend>
-				<?php foreach ($posts as $posts): ?>		
-					<div class="col-sm-12">
-						<div class="card">
-						  	<div class="card-body">
-							    <h5 class="card-title">
-							    	<img style="width:60px;" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($posts['avatar']); ?>">
-							    		    	<strong><em  style = "font-family:Georgia"><?php echo $posts['fullname']; ?></em></strong>&emsp;&emsp;&emsp;&emsp;
-							    	<div class="btn-group">
-										<strong data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style='font-size:20px' class='fas'ata-toggle="tooltip" title="Chỉnh sửa">&#xf141;</i></strong>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span>&#128221;</span> Lưu bài viết</a>
-											<hr>
-											<a class="dropdown-item" href="#"> Chỉnh sửa bài viết</a>
-											<a class="dropdown-item" href="#"> Nhúng</a>
-											<a class="dropdown-item" href="#"> Tắt thông báo cho bài biết này</a>
-											<hr>
-											<a class="dropdown-item" href="#"> Ẩn khỏi dòng thời gian</a>
-											<a class="dropdown-item" href="#"> Tắt bản dịch</a>
-											<a class="dropdown-item" href="#"> Kiểm duyệt bình luận</a>
-										</div>
-									</div>
-							    </h5>
-							    <h6 class="card-subtitle mb-2 text-muted"><?php echo $posts['createAt']; ?>
-							    	<div class="btn-group">
-										<button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style='font-size:15px' class='fas'data-toggle="tooltip" title="Mọi người">&#xf57d;</i></button>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><i style='font-size:20px'class='fas'data-toggle="tooltip" title="Mọi người">&#xf57d;</i> Mọi người</a>
-											<a class="dropdown-item" href="#"><i style='font-size:20px' class='fas'data-toggle="tooltip" title="Bạn bè">&#xf500;</i> Bạn bè</a>
-											<a class="dropdown-item" href="#"><i style='font-size:20px' class="fa"data-toggle="tooltip" title="Chỉ mình tôi">&#xf023;</i> Chỉ mình tôi</a>
-											<a class="dropdown-item" href="#"><i style='font-size:20px' class="fa"data-toggle="tooltip" title="Bạn bè cụ thể">&#xf007;</i> Bạn bè cụ thể</a>
-										</div>
-									</div>
-							    </h6>
-							    <p class="card-text">
-								    <?php echo $posts['content']; ?>
-								</p>   		
-							    <div class="btn-group">
+				<?php foreach ($posts as $posts): ?>			
+				<div class="col-sm-12">
+					<div class="card">
+					  	<div class="card-body">
+					    <h5 class="card-title">
+					    	<img style="width:60px;" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($posts['avatar']); ?>">
+					    		    	<strong><em  style = "font-family:Georgia"><?php echo $posts['fullname']; ?></em></strong>&emsp;&emsp;&emsp;&emsp;
+					    	<div class="btn-group">
+								<strong data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style='font-size:20px' class='fas'ata-toggle="tooltip" title="Chỉnh sửa">&#xf141;</i></strong>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="#"><span>&#128221;</span> Lưu bài viết</a>
+									<hr>
+									<a class="dropdown-item" href="#"> Nhúng</a>
+									<a class="dropdown-item" href="#"> Bật thông báo cho bài biết này</a>
+									<hr>
+									<a class="dropdown-item" href="#"> Tìm hỗ trợ hoặc báo cáo cho bài viết</a>
+								</div>
+							</div>
+					    </h5>
+					    <h6 class="card-subtitle mb-2 text-muted"><?php echo $posts['createAt']; ?>&ensp;
+					    	<div class="btn-group">
+								<h9 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style='font-size:15px' class='fas'data-toggle="tooltip" title="Mọi người">&#xf57d;</i></h9>								
+							</div>
+					    </h6>
+					    <p class="card-text">
+						    	<?php echo $posts['content']; ?>    		
+					    </p>
+					    <div class="btn-group">
 									<div class="btn-group">
 										<h9 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style='font-size:20px' class='far fa-thumbs-up'data-toggle="tooltip" title="Cảm xúc của bạn với status này!!"></i> Thích</h9>
 										<div class="dropdown-menu">

@@ -2,7 +2,7 @@
   require_once 'init.php';
   if (!$currentUser)
   {
-  	header('location: index1.php');
+  	header('location: home.php');
   	exit();
   }
 	$posts = getNewFeeds();
@@ -25,7 +25,7 @@
         border:10px solid black;}
         .textarea {
 		  width: 50%;
-		  height: 1150px;
+		  height: 1320px;
 		  padding: 12px 20px;
 		  box-sizing: border-box;
 		  border: 2px solid #ccc;
@@ -75,60 +75,99 @@
 		    }
 		?>
 		<?php if ($success): ?>
-		<?php header('Location: index1.php'); ?>
+		<?php header('Location: home.php'); ?>
 		<?php else: ?>
 		<div class="alert alert-danger" role = "alert">
 			Cập Nhật Thông Tin Thất Bại:)
 		</div>
 		<?php endif; ?>
 		<?php else: ?>
-		<form method="POST" enctype="multipart/form-data">
+		<form method="POST" enctype="multipart/form-data" class="was-validated">
 			<fieldset class="textarea">	
 				<legend><h2 style="font-family:Georgia">Information</h2></legend>
-					<p class="left">
-						<label for="anhbia"><strong>Ảnh Bìa</strong></label><br>
-						<input type="file" class="file" id="anhbia" name="anhbia"><br>
+					<div class="card">
+						<div class="form-group">
+							<label for="anhbia"><strong>Ảnh Bìa</strong></label>
+							<input type="file" class="file" id="anhbia" name="anhbia">
+						</div>
 
-						<label for="avatar"><strong>Ảnh Đại Diện</strong></label><br>
-						<input type="file" class="file" id="avatar" name="avatar"><br>
+						<div class="form-group">
+							<label for="avatar"><strong>Ảnh Đại Diện</strong></label>
+							<input type="file" class="file" id="avatar" name="avatar">
+						</div>
 
-						<label for="fullname"><strong>Họ Tên</strong></label>
-						<input  class="form-control" id="fullname" name="fullname" placeholder="Tên của bạn" value="<?php echo $currentUser[0]['fullname']; ?>"><br>
+						<div class="form-group">
+							<label for="fullname"><strong>Họ Tên</strong></label>
+							<input  class="form-control" id="fullname" name="fullname" placeholder="Tên của bạn" value="<?php echo $currentUser[0]['fullname']; ?>"required>
+							<div class="valid-feedback">Thành công.</div>
+	      					<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+						</div>
 
-						<label for="gioitinh"><strong>Giới Tính</strong></label><br>
-						<input  class="form-control" id="gioitinh" name="gioitinh" placeholder="Giới tính của bạn"><br>
+						<div class="form-group">
+							<label for="gioitinh"><strong>Giới Tính</strong></label>
+							<input  class="form-control" id="gioitinh" name="gioitinh" placeholder="Giới tính của bạn"required>
+							<div class="valid-feedback">Thành công.</div>
+	      					<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+						</div>
 
-						<label for="ngaysinh"><strong>Ngày Sinh</strong></label><br>
-						<input  class="form-control" id="ngaysinh" name="ngaysinh" placeholder="Sinh nhật của bạn"><br>
+						<div class="form-group">
+							<label for="ngaysinh"><strong>Ngày Sinh</strong></label>
+							<input  class="form-control" id="ngaysinh" name="ngaysinh" placeholder="Sinh nhật của bạn"required>
+							<div class="valid-feedback">Thành công.</div>
+	      					<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+						</div>
 
-						<label for="bietdanh"><strong>Biệt Danh</strong></label><br>
-						<input  class="form-control" id="bietdanh" name="bietdanh" placeholder="Mọi người gọi bạn với biệt danh gì?"><br>
+						<div class="form-group">
+							<label for="bietdanh"><strong>Biệt Danh</strong></label>
+							<input  class="form-control" id="bietdanh" name="bietdanh" placeholder="Mọi người gọi bạn với biệt danh gì?"required>
+							<div class="valid-feedback">Thành công.</div>
+	      					<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+						</div>
 
-						<label for="bietdanh"><strong>Tiểu Sử</strong></label><br>
-						<input class="form-control" id="tieusu" name="tieusu" placeholder="Giới thiệu vài dòng về bạn nào!"><br>
+						<div class="form-group">
+							<label for="bietdanh"><strong>Tiểu Sử</strong></label>
+							<input class="form-control" id="tieusu" name="tieusu" placeholder="Giới thiệu vài dòng về bạn nào!"required>
+							<div class="valid-feedback">Thành công.</div>
+	      					<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+						</div>
 
-						<label for="phonenumber"><strong>Số Điện Thoại</strong></label><br>
-						<input  class="form-control" id="phonenumber" name="phonenumber" placeholder="Số điện thoại của bạn"><br>
+						<div class="form-group">
+							<label for="phonenumber"><strong>Số Điện Thoại</strong></label>
+							<input  class="form-control" id="phonenumber" name="phonenumber" placeholder="Số điện thoại của bạn"required>
+							<div class="valid-feedback">Thành công.</div>
+	      					<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+						</div>
 
-						<label for="quequan"><strong>Đến Từ</strong></label><br>
-						<input  class="form-control" id="quequan" name="quequan" placeholder="Bạn đến từ đâu nhỉ?"><br>
+						<div class="form-group">
+							<label for="quequan"><strong>Đến Từ</strong></label>
+							<input  class="form-control" id="quequan" name="quequan" placeholder="Bạn đến từ đâu nhỉ?"required>
+							<div class="valid-feedback">Thành công.</div>
+	      					<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+						</div>
 
-						<label for="address"><strong>Sống Tại</strong></label><br>
-						<input  class="form-control" id="address" name="address" placeholder="Hiện tại bạn đang sống tại đâu?"><br>
+						<div class="form-group">
+							<label for="address"><strong>Sống Tại</strong></label>
+							<input  class="form-control" id="address" name="address" placeholder="Hiện tại bạn đang sống tại đâu?"required>
+							<div class="valid-feedback">Thành công.</div>
+	      					<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+						</div>
 
-						<label for="workplace"><strong>Nơi Làm Việc/Học Tập</strong></label><br>
-						<input  class="form-control" id="workplace" name="workplace" placeholder="Bạn làm việc ở đâu?"><br>
-
-						<button type="Submit" class="btn btn-success"><b>Cập Nhật</b></button>&emsp;		
-						<a href="index1.php"><b>Hủy</b></a><br>
+						<div class="form-group">
+							<label for="workplace"><strong>Nơi Làm Việc/Học Tập</strong></label>
+							<input  class="form-control" id="workplace" name="workplace" placeholder="Bạn làm việc ở đâu?"required>
+							<div class="valid-feedback">Thành công.</div>
+	      					<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+						</div>
+						<button type="Submit" class="btn btn-success"><b>Cập Nhật</b></button>		
+						<a href="home.php"><b>Hủy</b></a>
 						<a href="changePassword.php">Đổi Mật Khẩu</a>
-					</p>
+					</div>
 			</fieldset>
 		</form>
+		<?php endif; ?>
 		</center>
 	</div>
 </body>
 </html>
-<?php endif; ?>
 <!-- <p><iframe src="https://www.nhaccuatui.com/mh/background/dkE0hFCviG1g" width="1" height="1" frameborder="0" allowfullscreen allow="autoplay"></iframe></p> -->
 <?php include 'footer.php'; ?>
