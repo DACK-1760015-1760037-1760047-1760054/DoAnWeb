@@ -19,7 +19,7 @@
         border:10px solid black;}
         .textarea {
 		  width: 50%;
-		  height: 430px;
+		  height: 465px;
 		  padding: 12px 20px;
 		  box-sizing: border-box;
 		  border: 2px solid #ccc;
@@ -28,7 +28,7 @@
 		  resize: none;
 		}
 		.left {
-       text-align: justify;
+       text-align: left;
     }
 	</style>
 </head>
@@ -61,18 +61,30 @@
 		</div>
 		<?php endif; ?>
 		<?php else: ?>		
-		<form action="register.php" method="POST">
+		<form action="register.php" method="POST" class="was-validated">
 			<fieldset class="textarea">				
 				<legend><center>Personal information:</center></legend>
-				<p class="left">
-				<label for="fullname"><strong>Họ Tên</strong></label>
-				<input type="fullname" class="form-control" id="fullname" placeholder="Nhập tên đầy đủ của bạn" name="fullname"><br>
-				<label for="email"><strong>Email</strong></label>
-				<input type="email" class="form-control" id="email" placeholder="Nhập Email" name="email"><br>
-				<label for="password"><strong>Password</strong></label>
-				<input type="password" class="form-control" id="password" placeholder="Nhập Password" name="password"><br>				
+				<div class="form-group">
+					<label for="fullname"><strong>Họ Tên</strong></label>
+					<input type="fullname" class="form-control" id="fullname" placeholder="Nhập vào tên đầy đủ của bạn " name="fullname" required>
+					<div class="valid-feedback">Thành công.</div>
+      				<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+				</div>
+				<div class="form-group">
+					<label for="email"><strong>Email</strong></label>
+					<input type="email" class="form-control" id="email" placeholder="Nhập vào email của bạn " name="email" required>
+					<div class="valid-feedback">Thành công.</div>
+      				<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+				</div>
+				<div class="form-group">
+					<label for="password"><strong>Password</strong></label>
+					<input type="password" class="form-control" id="password" placeholder="Nhập vào password của bạn " name="password" required>
+					<div class="valid-feedback">Thành công.</div>
+      				<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+				</div>
+								
 				<button type="Submit" class="btn btn-success"><b>Đăng Ký</b></button>
-				<a href="login.php"><b>Hủy</b></a></p>
+				<a href="login.php"><b>Hủy</b></a>
 			</fieldset>		
 		</form></center>
 	</div>

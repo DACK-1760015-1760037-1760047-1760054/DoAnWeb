@@ -19,8 +19,8 @@
         padding: 50px;
         border:10px solid black;}
         .textarea {
-		  width: 40%;
-		  height: 350px;
+		  width: 50%;
+		  height: 330px;
 		  padding: 12px 20px;
 		  box-sizing: border-box;
 		  border: 2px solid #ccc;
@@ -51,21 +51,27 @@
 			}
 		?>
 		<?php if ($success): ?>
-		<?php header('Location: index1.php'); ?>
+		<?php header('Location: home.php'); ?>
 		<?php else: ?>
 		<div class="alert alert-danger" role = "alert">
 			Đăng nhập Không thành công!!Mời đăng nhập lại :)
 		</div>
 		<?php endif; ?>
 		<?php else: ?>			
-		<form action="login.php" method="POST">
+		<form action="login.php" method="POST" class="was-validated">
 			<fieldset class="textarea">
 				<legend><center>Login Information:</center></legend>
 				<p class = "left">
-				<label for="Email"><strong>Email</strong></label>
-				<input type="email" class="form-control" id="Email" placeholder="Nhập vào Email" name="Email"><br>
-				<label for="Password"><strong>Password</strong></label>
-				<input type="password"class="form-control" id="Password" placeholder="Nhập vào mật khẩu" name="Password"><br>
+				<div class="form-group">
+					<input type="email" class="form-control" id="Email" placeholder="Nhập Email của bạn" name="Email" required>
+					<div class="valid-feedback">Thành công.</div>
+      				<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" id="Password" placeholder="Nhập vào Password " name="Password" required>
+					<div class="valid-feedback">Thành công.</div>
+      				<div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+				</div>
 				<button type="Submit" class="btn btn-success"><b>Đăng Nhập</b></button>&emsp;		
 				<a href="index.php"><b>Hủy</b></a><br>
 				<a href="forgotPassword.php">Quên Mật Khẩu?</a></p>

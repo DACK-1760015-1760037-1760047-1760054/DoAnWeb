@@ -113,6 +113,14 @@ function getNewFeeds()
 	return $stmt -> fetchAll(PDO::FETCH_ASSOC);
 }
 
+function findAllPostOfUser($userID)
+{
+	global $db;
+	$stmt = $db->prepare("SELECT p.*, u.fullname,u.avatar FROM posts AS p, users AS u WHERE p.userID = u.id AND p.userID = ? ORDER BY p.createAt DESC ");
+	$stmt->execute(array($userID));
+	return $stmt->fetchALL(PDO::FETCH_ASSOC);	 
+}
+
 function createPosts($userid, $content)
 {
 	global $db;
@@ -206,4 +214,35 @@ function LoadData($id)
 	$stmt->execute(array($id));
 	return $stmt -> fetchAll(PDO::FETCH_ASSOC);
 }
+
+function sendFriendRequest($userId1, $userId2)
+{
+	global $db;
+	$stmt = $db ->prepare("INSERT INTO friendship(userId1, userId2)VALUES(?, ?)");
+	$stmt->execute(array($userId1, $userId2));
+}
+
+function getFriendship($userId1, $userId2)
+{
+	global $db;
+	$stmt = $db->prepare("SELECT * FROM friendship WHERE userId1 = ? AND userId2 = ?");
+	$stmt->execute(array($userId1, $userId2));
+	return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function removeFriendRequest($userId1, $userId2)
+{
+	global $db;
+	$stmt = $db ->prepare("DELETE FROM friendship WHERE (userId1 = ? AND userId2 = ?) OR (userId2 = ? AND userId1 = ?)");
+	$stmt->execute(array($userId1, $userId2,$userId1, $userId2));
+}
+
+function searchFriendByName($name)
+{
+	global $db;
+	$stmt = $db->prepare("SELECT * FROM users where fullname like '%$name%'");
+	$stmt->execute(array($name));
+	return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+}
+
 ?>
