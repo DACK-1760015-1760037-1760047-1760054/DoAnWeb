@@ -2,7 +2,7 @@
 require_once 'init.php';
   if (!$currentUser)
   {
-  	header('location: index1.php');
+  	header('location: home.php');
   	exit();
   }
 
@@ -10,5 +10,5 @@ require_once 'init.php';
 
   createPosts($currentUser[0]['id'], $content);
 
-  header('location: index1.php');
+  header('location: home.php');
 ?>

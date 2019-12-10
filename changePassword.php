@@ -2,7 +2,7 @@
   require_once 'init.php';
   if (!$currentUser)
   {
-  	header('location: index1.php');
+  	header('location: home.php');
   	exit();
   }
   $posts = getNewFeeds();
@@ -56,7 +56,7 @@
 			}
 		?>
 		<?php if ($success): ?>
-		<?php header('Location: index1.php'); ?>
+		<?php header('Location: home.php'); ?>
 		<?php else: ?>
 		<div class="alert alert-danger" role = "alert">
 			Đổi Mật Khẩu Thất Bại:)
@@ -75,7 +75,7 @@
 				<label for="Password"><strong>Mật khẩu Mới</strong></label><br>
 				<input type="password" class="form-control" id="Password" placeholder="Nhập mật khẩu mới" name="Password"><br>
 			<button type="Submit" class="btn btn-success"><b>Đổi Mật Khẩu</b></button>&emsp;
-			<a href="index1.php"><b>Hủy</b></a></p>
+			<a href="home.php"><b>Hủy</b></a></p>
 			</fieldset>	
 		</form>
 		</center>
