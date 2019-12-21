@@ -12,4 +12,4 @@ $EMAIL_NAME = 'LT Web 1 - 2019';
 $EMAIL_PASSWORD = 'hodung1999@';
 
 //base url config
-$BASE_URL = 'http://localhost/DoAn';
+$BASE_URL = 'http://localhost/DoAnNhom';

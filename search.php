@@ -38,4 +38,5 @@
     </div>  
   <?php endforeach; ?>
 <?php endif;?>
+<hr>
 <?php include 'footer.php'; ?>
