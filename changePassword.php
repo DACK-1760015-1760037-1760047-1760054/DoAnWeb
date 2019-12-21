@@ -83,5 +83,5 @@
 </body>
 </html>
 <?php endif; ?>
-<!-- <p><iframe src="https://www.nhaccuatui.com/mh/background/Ac9TWm0PDtyO" width="1" height="1" frameborder="0" allowfullscreen allow="autoplay"></iframe></p> -->
+<hr>
 <?php include 'footer.php'; ?>
