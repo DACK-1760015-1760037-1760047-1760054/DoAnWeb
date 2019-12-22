@@ -1,6 +1,5 @@
 <?php 
   require_once 'init.php';
-  // hàm kích hoạt ở đâu ế
 ?>
 <?php include 'header.php'; ?>
 <!DOCTYPE html>
@@ -55,6 +54,7 @@
 		<?php else: ?>
 		<div class="alert alert-danger" role = "alert">
 			Đăng nhập Không thành công!!Mời đăng nhập lại :)
+			<a href="index.php"><b>Quay lại</b></a><br>
 		</div>
 		<?php endif; ?>
 		<?php else: ?>			
@@ -81,5 +81,5 @@
 </body>
 </html>
 <?php endif; ?>
-<!-- <p><iframe src="https://www.nhaccuatui.com/mh/background/HsVRhIfGJMpM" width="1" height="1" frameborder="0" allowfullscreen allow="autoplay"></iframe></p> -->
+<hr>
 <?php include 'footer.php'; ?>

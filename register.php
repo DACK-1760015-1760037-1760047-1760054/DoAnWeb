@@ -91,4 +91,5 @@
 </body>
 </html>
 <?php endif; ?>
+<hr>
 <?php include 'footer.php'; ?>

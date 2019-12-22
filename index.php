@@ -14,20 +14,20 @@
 			column-count: 2;
 		}
 		.container {
-		   width: 1000px;
-		  padding: 10px;
+		   width: 1400px;
+		  padding: 0px;
 		  overflow: auto;}
 		#post {
 		   	float: left;
 		}
 		#sidebar {
-			 width: 360px;
+			 width: 500px;
 			 height: 320px;
 			 background: #e8e8e8;
 			 float: right;
 			}
 		html, body {
-		  width: 600px;
+		  width: 1400px;
 		  height: 500px;
 		  margin: 0;
 		  padding: 0;
@@ -242,4 +242,5 @@
 	</div>
 </body>
 </html>
+<hr>
 <?php include 'footer.php'; ?>

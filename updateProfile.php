@@ -169,5 +169,5 @@
 	</div>
 </body>
 </html>
-<!-- <p><iframe src="https://www.nhaccuatui.com/mh/background/dkE0hFCviG1g" width="1" height="1" frameborder="0" allowfullscreen allow="autoplay"></iframe></p> -->
+<hr>
 <?php include 'footer.php'; ?>
