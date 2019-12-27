@@ -25,8 +25,7 @@
 	{
 		$posts = getNewFeedsWithPagingUserNotFr(  $userId, $limit = 5, $page = 1);
 	}
-
-	//$posts = getNewFeedsWithPagingProfile($userId,$Limit,$pagenum);
+	
 	$isFollowing = getFriendship($currentUser[0]['id'], $userId);
 	$isFollower = getFriendship($userId, $currentUser[0]['id']);
 	error_reporting(E_ALL & ~E_NOTICE);
@@ -66,9 +65,7 @@
 					<img style="width:100%;height: 500px" class="rounded" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($profile[0]['anhbia']); ?>">
 						<div class="card-text"style="font-family:Geogia;margin-top:-145px">
 							<img style="width:205px;margin-left:20px;"alt="Cinque Terre"class="rounded-circle" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($profile[0]['avatar']); ?>"><strong style="color:GhostWhite;font-size:16px;"><?php echo $profile ? ' ' . $profile[0]['fullname'] . ' ' : ' ' ?></strong>
-							<button style="margin-left:35%;"><a href="#"><span style="color:dimgrey" class='fas'>&#xf00c; <b> Bạn bè</b></span></a></button>
-							<button style="margin-left:10px;"><a href="#" ><span style="color:dimgrey" class='fa fa-feed'><b> Theo dõi</b></span></a></button>
-							<button style="margin-left:-5px;"><a href="conversation.php?id=<?php echo $profile[0]['id'];?>"><span style="color:dimgrey" class='fab fa-facebook-messenger'><b> Nhắn tin</b></span></a></button>
+							<button style="margin-left:50%;"><a href="conversation.php?id=<?php echo $profile[0]['id'];?>"><span style="color:dimgrey" class='fab fa-facebook-messenger'><b> Nhắn tin</b></span></a></button>
 							<button style="margin-left:-5px;"><span style="color:dimgrey" class='fas fa-ellipsis-h'></span></button>
 						</div>					
 				</div>
@@ -235,7 +232,7 @@
 										</div>
 										<div class="btn-group">
 											<span class="badge badge-pill badge-light">
-												<i style='font-size:18px;color:dodgerblue;'class='fas fa-user-tag'data-toggle="tooltip" title="Ai là người bạn muốn nhắc tới❤️?"><h9 style='color:black;' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Gắn thẻ bạn bè</h9></i>
+												<i style='font-size:18px;color:dodgerblue;'data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"class='fas fa-user-tag'data-toggle="tooltip" title="Ai là người bạn muốn nhắc tới❤️?"><h9 style='color:black;'> Gắn thẻ bạn bè</h9></i>
 												<div class="dropdown-menu">
 										  			<div class="input-group">
 														<div class="input-group-prepend">
@@ -248,7 +245,7 @@
 										</div>
 										<div class="btn-group">
 											<span class="badge badge-pill badge-light">
-												<i style='font-size:18px;color:goldenrod;'class='fas fa-grin-alt'data-toggle="tooltip" title="Cảm xúc hiện tại của bạn😂!!"><strong style='color:black;' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Cảm xúc/Hoạt Động</strong></i>
+												<i style='font-size:18px;color:goldenrod;'data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"class='fas fa-grin-alt'data-toggle="tooltip" title="Cảm xúc hiện tại của bạn😂!!"><strong style='color:black;'> Cảm xúc/Hoạt Động</strong></i>
 												<div class="dropdown-menu">
 													<a class="dropdown-item" href="#">&#x1F601; Đang cảm thấy...</a>
 													<a class="dropdown-item" href="#">&#x1F389; Đang chúc mừng...</a>
@@ -330,10 +327,12 @@
 								    <p style = "font-size:20px;font-family:Times New Roman;margin-top:-5px;"class="card-text">
 									    <?php echo $posts['content']; ?>
 									</p> 
+									<?php if($posts['img']) : ?>
 									<div>
-										<img style="width:100%;margin-top:-15px;" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($posts['img']); ?>">
+										<img style="width:100%;margin-top:-15px;" style="width:100%;max-height:500px;" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($posts['img']); ?>">
 									</div>
-									<br>	
+										<?php endif; ?>
+			                        <br>	
 								    <div class="btn-group"style="margin-top:-15px;">
 										<div class ="post">
 											<div class="post-info">
@@ -386,7 +385,8 @@
 												<div class="card">
 													<h6 class="card-title">
 													<img style="width:40px;" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($comment['avatar']); ?>">
-								    		    	<strong><em  style = "font-style: normal;"><font color="#000080"><?php echo $comment['fullname']; ?></font></em></strong>&emsp;&emsp;<?php echo $comment['content']; ?>
+								    		    	<strong><em  style = "font-style: normal;"><font color="#000080"><?php echo $comment['fullname']; ?></font></em></strong>&emsp;&emsp;<?php echo $comment['content']; ?><br>
+								    		    	<em style="margin-left:50px;margin-top:1px;"><?php echo $comment['createAt']; ?></em>
 													</h6>
 												
 												</div>

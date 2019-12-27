@@ -166,8 +166,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 										</div>
 										<div class="btn-group">
 											<span class="badge badge-pill badge-light" style="margin-top:-20px">
-												<i style='font-size:18px;color:dodgerblue;' class='fas fa-user-tag' data-toggle="tooltip" title="Ai là người bạn muốn nhắc tới❤️?">
-													<h9 style='color:black;' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Gắn thẻ bạn bè</h9>
+												<i style='font-size:18px;color:dodgerblue;'data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"class='fas fa-user-tag' data-toggle="tooltip" title="Ai là người bạn muốn nhắc tới❤️?">
+													<h9 style='color:black;'> Gắn thẻ bạn bè</h9>
 												</i>
 												<div class="dropdown-menu">
 													<div class="input-group">
@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 										</div>
 										<div class="btn-group">
 											<span class="badge badge-pill badge-light" style="margin-top:-20px">
-												<i style='font-size:18px;color:goldenrod;' class='fas fa-grin-alt' data-toggle="tooltip" title="Cảm xúc hiện tại của bạn😂!!"><strong style='color:black;' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Cảm xúc/Hoạt Động</strong></i>
+												<i style='font-size:18px;color:goldenrod;'data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='fas fa-grin-alt' data-toggle="tooltip" title="Cảm xúc hiện tại của bạn😂!!"><strong style='color:black;'> Cảm xúc/Hoạt Động</strong></i>
 												<div class="dropdown-menu">
 													<a class="dropdown-item" href="#">&#x1F601; Đang cảm thấy...</a>
 													<a class="dropdown-item" href="#">&#x1F389; Đang chúc mừng...</a>
@@ -265,30 +265,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 											<a class="dropdown-item" href="<?php echo "setPrivacy.php?postID=".$posts['id']."&privacy=2&for=pagePersonal.php" ?>"><i style='font-size:24px' class='fas'>&#xf023;</i> Only Me</a>
 										</div>
 									</div>
-									<!-- <?php $number = $posts['privacy'];
-											
-
-											switch ($number) {
-												case 0:
-													echo "<i style='font-size:24px' class='fas'>&#xf57d;</i>"; // public nó á
-													break;
-												case 1:
-													echo "<i style='font-size:24px' class='fas'>&#xf500;</i>"; // bb
-													break;
-												case 2:
-													echo "<i style='font-size:24px' class='fas'>&#xf023</i>"; //chỉ mình tôi
-													break;
-											}
-											?> -->
 								</h6>
 								
 								<p style="font-size:20px;font-family:Times New Roman;margin-top:-5px;" class="card-text">
 									<?php echo $posts['content']; ?>
 								</p>
+								<?php if($posts['img']) : ?>
 								<div>
 									<img style="width:100%;margin-top:-15px;" style="width:100%;max-height:500px;" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($posts['img']); ?>">
 								</div>
-								<br>
+									<?php endif; ?>
+		                        <br>
 								<div class="btn-group" style="margin-top:-15px;">
 									<div class="post">
 										<div class="post-info">
@@ -332,7 +319,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 													<img style="width:40px;" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($comment['avatar']); ?>">
 													<strong><em style="font-style: normal;">
 															<font color="#000080"><?php echo $comment['fullname']; ?></font>
-														</em></strong>&emsp;&emsp;<?php echo $comment['content']; ?>
+														</em></strong>&emsp;&emsp;<?php echo $comment['content']; ?><br>
+														<em style="margin-left:50px;margin-top:1px;"><?php echo $comment['createAt']; ?></em>
 												</h6>
 
 											</div>
