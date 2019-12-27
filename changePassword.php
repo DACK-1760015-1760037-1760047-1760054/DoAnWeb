@@ -56,7 +56,10 @@
 			}
 		?>
 		<?php if ($success): ?>
-		<?php header('Location: home.php'); ?>
+		<div class="alert alert-danger" role = "alert">
+			Đổi Mật Khẩu Thành công:)
+			<a href="home.php"><b>Quay lại</b></a><br>
+		</div>
 		<?php else: ?>
 		<div class="alert alert-danger" role = "alert">
 			Đổi Mật Khẩu Thất Bại:)
