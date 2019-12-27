@@ -7,11 +7,14 @@
   	exit();
   }  
   $user_id = $currentUser[0]['id'];
-  $limit = 10;
+  $Limit = 10;
   $pagenum = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
   $friendIds = findAllFriend($user_id);
-  $posts = getNewFeedsWithPaging($currentUser[0]['id'], $limit, $pagenum);
-  $totalPage = intVal(intVal(GetTotalPageNewFeeds()[0]["total_count"])  / $limit) + 1 ;
+  //var_dump($friendIds);exit;
+  $posts = getNewFeedsWithPaging($currentUser[0]['id'],$Limit,$pagenum);
+  //var_dump($posts);exit;
+  $totalPage = intVal(intVal(GetTotalPageNewFeeds()[0]["total_count"])  / $Limit) + 1 ;
+  
   
   error_reporting(E_ALL & ~E_NOTICE);
 
@@ -44,7 +47,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 <body>
 	<div class="container">	
     <?php if ($currentUser): ?>		
-	<legend><center><marquee><strong style="font-family:Georgia">Chào mừng <?php echo $currentUser[0]['fullname']; ?> đã trở lại</strong></marquee></center></legend>
+	<legend><center><strong style="font-family:Georgia">Chào mừng <?php echo $currentUser[0]['fullname']; ?> đã trở lại</strong> </center></legend>
 	<div class="row">
 		<div class="col-sm-3"style="margin-left:-20px;font-family:Times New Roman">
 			<img style="width:40px;"alt="Cinque Terre"class="rounded-circle" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($currentUser[0]['avatar']); ?>"><strong><?php echo $currentUser ? ' ' . $currentUser[0]['fullname'] . ' ' : ' ' ?></strong>
@@ -141,7 +144,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 						<div class="form-group">							
 							<textarea style="width:100%" id="content" name="content" rows="3" placeholder="<?php echo $currentUser ? '' . $currentUser[0]['fullname'] . ' ơi !' : ' ' ?>, bạn đang nghĩ gì?"></textarea>
 						</div>
-						<div class="btn-group"style="margin-left:20px;margin-top:-25px">
+						<div class="btn-group"style="margin-left:20px;margin-top:-35px">
 							<span class="badge badge-pill badge-light">
 								<i class='far fa-image'data-toggle="tooltip" title="Thêm ảnh nào🌺"style='font-size:18px;color:dodgerblue;'>
 								<strong style="color:black" data-toggle="collapse" data-target="#demo"> Ảnh/Video</strong>
@@ -196,15 +199,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 			</div>
 			<h5 style = "font-family:Georgia;color:red"><strong><marquee direction="right">Dòng thời gian của <?php echo $currentUser ? ' ' . $currentUser[0]['fullname'] . ' ' : ' ' ?> và Bạn bè</marquee></strong></h5>
 			<div class="row"style="margin-top:-10px;margin-bottom:-10px;">			
-				<?php foreach ($posts as $posts): ?> 
-				<div style = "font-family:Georgia">
+				<?php foreach ($posts as $posts): ?>
+				<div style = "font-family:Georgia" class="col-sm-12">
 					<div class="card"style="margin-top:5px;margin-bottom:5px;">
 					  	<div class="card-body"style="margin-top:-2px;margin-bottom:-25px;">
 						    <h5 class="card-title">
 						    	<img style="width:60px;" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($posts['avatar']); ?>">
 						    		    	<strong><em  style = "font-family:Georgia"><?php echo $posts['fullname']; ?></em></strong>
 											
-								<div class="text-right" class="btn-group"style="margin-top:-30px;">									
+								<div class="btn-group"style="margin-left:355px;">									
 									<strong data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style='font-size:20px' class='fas'ata-toggle="tooltip" title="Chỉnh sửa">&#xf141;</i></strong>
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="#"><i class='fas'>&#xf02e;</i> Lưu bài viết</a>
@@ -214,8 +217,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 								</div>
 							</h5>
 							<div class="dropdown">
-						    <h6 style="margin-top:-30px;margin-left:70px;"class="card-subtitle mb-2 text-muted"><?php echo $posts['createAt']; ?>&ensp;
+						    <h6 style="margin-top:-25px;margin-left:70px;"class="card-subtitle mb-2 text-muted"><?php echo $posts['createAt']; ?>&emsp;&emsp;&emsp;
 									<?php if($posts['userID'] == $currentUser[0]['id']): ?>
+												
 							
 										<a style="background: transparent; border:none" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<?php $number = $posts['privacy'];
@@ -230,9 +234,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 										</a>
 
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item" href="<?php echo "setPrivacy.php?postID=".$posts['id']."&privacy=0" ?>"><i style='font-size:24px' class='fas'>&#xf57d;</i> Public</a>
-											<a class="dropdown-item" href="<?php echo "setPrivacy.php?postID=".$posts['id']."&privacy=1" ?>"><i style='font-size:24px' class='fas'>&#xf500;</i> Friends</a>
-											<a class="dropdown-item" href="<?php echo "setPrivacy.php?postID=".$posts['id']."&privacy=2" ?>"><i style='font-size:24px' class='fas'>&#xf023;</i> Only Me</a>
+											<a class="dropdown-item" href="<?php echo "./setPrivacy?postID=".$posts['id']."&privacy=0" ?>"><i style='font-size:24px' class='fas'>&#xf57d;</i> Public</a>
+											<a class="dropdown-item" href="<?php echo "./setPrivacy?postID=".$posts['id']."&privacy=1" ?>"><i style='font-size:24px' class='fas'>&#xf500;</i> Friends</a>
+											<a class="dropdown-item" href="<?php echo "./setPrivacy?postID=".$posts['id']."&privacy=2" ?>"><i style='font-size:24px' class='fas'>&#xf023;</i> Only Me</a>
 										</div>
 									</div>
 											<?php else: ?>
@@ -255,10 +259,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 						    </h6>
 						    <p style = "font-size:20px;font-family:Times New Roman;margin-top:-5px;"class="card-text">
 							    	<?php echo $posts['content']; ?>    		
-						    </p>
+							</p>
+							<?php if($posts['img']) : ?>
 							<div>
 	                            <img style="width:100%;margin-top:-15px;" src="<?php echo 'data:image/jpeg;base64,' . base64_encode($posts['img']); ?>">
-	                        </div>
+							</div>
+								<?php endif; ?>
 	                        <br>
 						    <div class="btn-group"style="margin-top:-15px;">
 								<div class ="post">
