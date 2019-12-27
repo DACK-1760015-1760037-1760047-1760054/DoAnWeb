@@ -17,6 +17,21 @@ $friends = getUser();
     <select class="form-control" id="userId" name="userId">
       <?php foreach($friends as $friend) : ?>
       <option value="<?php echo $friend['id'] ?>"><?php echo $friend['fullname'] ?></option>
+      <?php
+        if ($currentUser[0]['id'] != $friend['id']  )
+        {
+          if($_SERVER['REQUEST_METHOD'] == 'POST')
+          {
+            if(isset($_POST['content']))
+            {
+              $td = 'Bạn nhận được tin nhắn từ '.$currentUser[0]['fullname'].' ';
+              $nd = $currentUser[0]['fullname'].' đã gửi cho bạn tin nhắn. Nội dung tin nhắn: '.$_POST['content'].'';
+            
+              sendEmail($friend['email'],$friend['fullname'], $td, $nd);
+            }
+          }
+        }
+        ?>
       <?php endforeach; ?>
     </select>
   </div>
@@ -29,19 +44,11 @@ $friends = getUser();
   <div class="form-group"align="right" style="margin-bottom:-10px;margin-left:10px;">  
   <button type="submit" class="btn btn-primary">Gửi tin nhắn</button>
   </div>
+
 </form>
-<?php
-    if($_SERVER['REQUEST_METHOD'] == 'POST')
-    {
-      if(isset($_POST['content']))
-      {
-        $td = 'Bạn nhận được tin nhắn từ '.$currentUser[0]['fullname'].' ';
-        $nd = $currentUser[0]['fullname'].' đã gửi cho bạn tin nhắn. Nội dung tin nhắn: '.$_POST['content'].'';
-        sendEmail($friend['email'], $friend['fullname'], $td, $nd);
-      }
-    }
-  
-      ?>
+
+
+
 </fieldset>
 
 <hr>
